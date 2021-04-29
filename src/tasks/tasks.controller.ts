@@ -19,6 +19,7 @@ import { filter } from "rxjs/operators";
 import { TaskStatusValidationPipe } from "./pipes/task-status-validation.pipe";
 import { Validate } from "class-validator";
 import { Task } from "./task.entity";
+import { TaskStatus } from "./task-status.enum";
 
 @Controller('tasks')
 export class TasksController {
@@ -28,30 +29,30 @@ export class TasksController {
   getTaskById(@Param('id', ParseIntPipe) id: number) : Promise<Task>{
     return this.tasksService.getTaskById(id)
   }
-  //
-  // @Delete('/:id')
-  // deleteTaskById(@Param('id') id: string): void {
-  //   this.tasksService.deleteTaskById(id)
-  // }
-  //
+
+  @Delete('/:id')
+  deleteTaskById(@Param('id', ParseIntPipe) id: number): Promise<void> {
+    return this.tasksService.deleteTaskById(id)
+  }
+
   // @Get()
   // getAllTasks(@Query(ValidationPipe) filterDto: GetTaskFilterDto) : TaskModel[]{
   //   if(Object.keys(filterDto).length){
   //     return this.tasksService.getTasksWithFilters(filterDto)
   //   }else return this.tasksService.getAllTasks()
   // }
-  //
+
   @Post()
   @UsePipes(ValidationPipe)
   createTask(@Body() createTaskDTO: CreteTaskDTO): Promise<Task>{
     return this.tasksService.createTask(createTaskDTO)
   }
-  //
-  // @Patch('/:id/status')
-  // updateTask(@Param('id') id: string,
-  //            @Param('field') field: string,
-  //            @Body('status', TaskStatusValidationPipe) updateTask: TaskStatus ){
-  //   return this.tasksService.updateTask(id, updateTask)
-  // }
+
+  @Patch('/:id/status')
+  updateTask(@Param('id', ParseIntPipe) id: number,
+             @Param('field') field: string,
+             @Body('status', TaskStatusValidationPipe) updateTask: TaskStatus ) : Promise<Task>{
+    return this.tasksService.updateTask(id, updateTask)
+  }
 }
 
