@@ -3,7 +3,8 @@ import { CreteTaskDTO } from "./dtos/create-task.dto";
 import { TaskRepository } from "./task.repository";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Task } from "./task.entity";
-import { TaskStatus } from "./task-status.enum";
+import { GetTaskFilterDto } from "./dtos/get-task-filter.dto";
+import { TaskStatus } from "./enums/task-status.enum";
 
 @Injectable()
 export class TasksService {
@@ -49,7 +50,11 @@ export class TasksService {
       throw new NotFoundException()
 
   }
-  //
+
+  async getTasks(filterDto: GetTaskFilterDto): Promise<Task[]>{
+    return this.taskRepository.getTasks(filterDto);
+  }
+
   async createTask(createTaskDto: CreteTaskDTO) : Promise<Task>{
     return this.taskRepository.createTask(createTaskDto);
   }

@@ -19,7 +19,7 @@ import { filter } from "rxjs/operators";
 import { TaskStatusValidationPipe } from "./pipes/task-status-validation.pipe";
 import { Validate } from "class-validator";
 import { Task } from "./task.entity";
-import { TaskStatus } from "./task-status.enum";
+import { TaskStatus } from "./enums/task-status.enum";
 
 @Controller('tasks')
 export class TasksController {
@@ -35,12 +35,10 @@ export class TasksController {
     return this.tasksService.deleteTaskById(id)
   }
 
-  // @Get()
-  // getAllTasks(@Query(ValidationPipe) filterDto: GetTaskFilterDto) : TaskModel[]{
-  //   if(Object.keys(filterDto).length){
-  //     return this.tasksService.getTasksWithFilters(filterDto)
-  //   }else return this.tasksService.getAllTasks()
-  // }
+  @Get()
+  getAllTasks(@Query(ValidationPipe) filterDto: GetTaskFilterDto) : Promise<Task[]>{
+    return this.tasksService.getTasks(filterDto)
+  }
 
   @Post()
   @UsePipes(ValidationPipe)
