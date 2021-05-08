@@ -15,5 +15,14 @@ Content-Type: application/json
 }
 ###
 GET http://localhost:3000/tasks
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZlcmRzIiwiaWF0IjoxNjE5NzQ3NjkwLCJleHAiOjE2MTk3NTEyOTB9.Q6a7ELlGPH_p1QptDQ0G4aWSWZ88lEbH9nxhEHsw8lA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZlcmRzIiwiaWF0IjoxNjIwNDk2Mjg3LCJleHAiOjE2MjA0OTk4ODd9.Mq6FfcwouPmZ1OVAI0r_c9I2H5uFPSVIxW6ZVihoQv4
 ###
+
+POST http://localhost:3000/tasks
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZlcmRzIiwiaWF0IjoxNjIwNDk2Mjg3LCJleHAiOjE2MjA0OTk4ODd9.Mq6FfcwouPmZ1OVAI0r_c9I2H5uFPSVIxW6ZVihoQv4
+Content-Type: application/json
+
+{
+  "title": "Test",
+  "description": "lala"
+}

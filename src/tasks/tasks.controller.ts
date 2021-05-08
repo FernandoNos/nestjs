@@ -21,6 +21,8 @@ import { Validate } from "class-validator";
 import { Task } from "./task.entity";
 import { TaskStatus } from "./enums/task-status.enum";
 import { AuthGuard } from "@nestjs/passport";
+import { User } from "../auth/user.entity";
+import { GetUser } from "../auth/get-user.decorator";
 
 @Controller('tasks')
 @UseGuards(AuthGuard())
@@ -28,31 +30,36 @@ export class TasksController {
   constructor(private  tasksService: TasksService){}
 
   @Get('/:id')
-  getTaskById(@Param('id', ParseIntPipe) id: number) : Promise<Task>{
-    return this.tasksService.getTaskById(id)
+  getTaskById(@Param('id', ParseIntPipe) id: number,
+              @GetUser() user: User) : Promise<Task>{
+    return this.tasksService.getTaskById(id, user)
   }
 
   @Delete('/:id')
-  deleteTaskById(@Param('id', ParseIntPipe) id: number): Promise<void> {
-    return this.tasksService.deleteTaskById(id)
+  deleteTaskById(@Param('id', ParseIntPipe) id: number, @GetUser() user: User): Promise<void> {
+    return this.tasksService.deleteTaskById(id, user)
   }
 
   @Get()
-  getAllTasks(@Query(ValidationPipe) filterDto: GetTaskFilterDto) : Promise<Task[]>{
-    return this.tasksService.getTasks(filterDto)
+  getAllTasks(
+    @GetUser() user:User,
+    @Query(ValidationPipe) filterDto: GetTaskFilterDto) : Promise<Task[]>{
+    return this.tasksService.getTasks(filterDto, user)
   }
 
   @Post()
   @UsePipes(ValidationPipe)
-  createTask(@Body() createTaskDTO: CreteTaskDTO): Promise<Task>{
-    return this.tasksService.createTask(createTaskDTO)
+  createTask(@Body() createTaskDTO: CreteTaskDTO,
+             @GetUser() user: User): Promise<Task>{
+    return this.tasksService.createTask(createTaskDTO, user)
   }
 
   @Patch('/:id/status')
   updateTask(@Param('id', ParseIntPipe) id: number,
              @Param('field') field: string,
+             @GetUser() user: User,
              @Body('status', TaskStatusValidationPipe) updateTask: TaskStatus ) : Promise<Task>{
-    return this.tasksService.updateTask(id, updateTask)
+    return this.tasksService.updateTask(id, updateTask, user)
   }
 }
 
